@@ -34,10 +34,16 @@ public class GuessingGame extends JFrame {
 		else if(guess > theNumber) {
 			message = guess + " is too high. Try again.";
 		}
-		else
-			message = guess + " is correct. You win!";
+		else {
+			message = guess + " is correct. You win! Let's play again!";
+			newGame();
+		}
 		//will display the message that comes from the above if statement depending on the user's guess into the label "lblOutput"
 		lblOutput.setText(message);
+		//The request focus will bring the mouse back into the text field so that we can select all. Now the user doesnt have to select the text or delete it before typing in another answer.
+		//It will be selected automatically so once user starts typing, the text will be replaced with the new text 
+		txtGuess.requestFocus();
+		txtGuess.selectAll();
 	}
 	
 	//method used for the game so that we can replay it
@@ -67,6 +73,12 @@ public class GuessingGame extends JFrame {
 		
 		//text field that user will input their guess
 		txtGuess = new JTextField();
+		txtGuess.addActionListener(new ActionListener() {
+			//this is a listener for the text field so that when the user hits the "Enter" key, their guess will be accepted. So user can choose to hit the guess button or just hit the "Enter" key
+			public void actionPerformed(ActionEvent e) {
+				checkGuess();
+			}
+		});
 		txtGuess.setBounds(285, 95, 60, 20);
 		getContentPane().add(txtGuess);
 		txtGuess.setColumns(10);
