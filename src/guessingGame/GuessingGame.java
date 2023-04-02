@@ -18,6 +18,10 @@ public class GuessingGame extends JFrame {
 	private JLabel lblOutput;
 	//declares a new Int that will be used for the number that the user is trying to guess
 	private int theNumber;
+	//declares Int that will be used to count the number of guesses it took for a user to guess the number
+	private int count;
+	//declares a button to be used to play the game again after a win
+	public JButton btnPlayAgain;
 
 	//method to check the guess of the user
 	public void checkGuess() {
@@ -25,7 +29,8 @@ public class GuessingGame extends JFrame {
 		String guessText = txtGuess.getText();
 		//declares a string that will be used to give a message to the player on if they guessed the number or not and what to do
 		String message = "";
-
+		//adds to the counter to display the amount of guesses it took for user to guess the number
+		count+=1;
 		//try block for exception handling
 		try {
 			//declares an Int that will take the string text from the user and parse it to Int
@@ -38,8 +43,9 @@ public class GuessingGame extends JFrame {
 				message = guess + " is too high. Try again.";
 			}
 			else {
-				message = guess + " is correct. You win! Let's play again!";
-				newGame();
+				message = guess + " is correct. You win with " + count + " guesses! Let's play again!";
+				//show the button to play again when user guesses the game
+				btnPlayAgain.setVisible(true);
 			}	
 			//catch block for exception handling
 		} catch (Exception e) {
@@ -59,6 +65,10 @@ public class GuessingGame extends JFrame {
 	public void newGame() {
 		//assigns a random number from 1 to 100 that the user will have to guess
 		theNumber = (int)(Math.random() * 100 + 1);
+		//sets the play again button to invisible from the start of the game
+		btnPlayAgain.setVisible(false);
+		//resets the counter
+		count = 0;
 	}
 
 	//method for displaying GUI and everything in it
@@ -106,8 +116,24 @@ public class GuessingGame extends JFrame {
 		//label to prompt user on what to do and how to play the game
 		lblOutput= new JLabel("Enter a number above and click Guess!");
 		lblOutput.setHorizontalAlignment(SwingConstants.CENTER);
-		lblOutput.setBounds(116, 208, 203, 14);
+		lblOutput.setBounds(90, 208, 255, 14);
 		getContentPane().add(lblOutput);
+		
+		JButton button = new JButton("New button");
+		button.setBounds(172, 149, 89, 23);
+		getContentPane().add(button);
+		
+		btnPlayAgain = new JButton("Play Again");
+		btnPlayAgain.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//Action handler for when user presses the play again buttin it starts a new game
+				newGame();
+			}
+		});
+		btnPlayAgain.setBounds(271, 149, 103, 23);
+		getContentPane().add(btnPlayAgain);
+		//sets the button to be hidden on startup
+		btnPlayAgain.setVisible(false);
 	}
 
 	public static void main(String[] args) {
